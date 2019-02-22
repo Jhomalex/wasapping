@@ -35,6 +35,15 @@ class UsersTableSeeder extends Seeder
         $cliente->save();
 
         $cliente->assignRole($clienteRole);
+        
+        $cliente= new User;
+        $cliente->nombre="Marcos Chuquicondor";
+        $cliente->foto="cliente.png";
+        $cliente->email="marcos@yodonante.com";
+        $cliente->password=bcrypt('m123');
+        $cliente->save();
+
+        $cliente->assignRole($clienteRole);
 
     }
 }
