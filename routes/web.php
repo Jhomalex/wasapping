@@ -12,6 +12,14 @@ Route::group(['prefix'=>'mensajeria','middleware'=> 'auth'],function(){
     Route::post('/delete','MensajeriaController@delete')->name('mensajeria.eliminar');
 });
 
+Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
+    Route::get('/', 'PagesController@contactos')->name('contactos');
+    Route::get('/listar', 'ContactoController@listar')->name('contactos.listar');
+    Route::post('/store','MensajeriaController@store')->name('mensajeria.crear');
+    Route::post('/edit','MensajeriaController@edit')->name('mensajeria.editar');
+    Route::post('/delete','MensajeriaController@delete')->name('mensajeria.eliminar');
+});
+
 Route::group(['prefix'=>'administrador','middleware'=> 'auth'],function(){
     Route::get('/', 'AdminPagesController@mensajeria')->name('mensajeria');
     Route::get('/listar', 'MensajeriaController@listarTodos')->name('mensajeria.listar');

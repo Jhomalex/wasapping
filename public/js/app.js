@@ -31981,6 +31981,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuetify___default.a, {
 Vue.component('dashboard', __webpack_require__(188));
 Vue.component('mensajeria', __webpack_require__(196));
 Vue.component('pedidos', __webpack_require__(199));
+Vue.component('contactos', __webpack_require__(202));
 
 var app = new Vue({
     el: '#app'
@@ -60091,6 +60092,296 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-50716433", module.exports)
   }
 }
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(7)
+/* script */
+var __vue_script__ = __webpack_require__(204)
+/* template */
+var __vue_template__ = __webpack_require__(203)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Contactos.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fb969bae", Component.options)
+  } else {
+    hotAPI.reload("data-v-fb969bae", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c(
+      "div",
+      { staticClass: "card-panel" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        [
+          _c(
+            "v-card",
+            { attrs: { flat: "" } },
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c("h5", [_vm._v("Lista de respuestas")]),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      "append-icon": "search",
+                      label: "Buscar",
+                      "single-line": "",
+                      "hide-details": ""
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-data-table",
+                {
+                  attrs: {
+                    headers: _vm.headers,
+                    items: _vm.todasRespuestas,
+                    search: _vm.search
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "items",
+                      fn: function(props) {
+                        return [
+                          _c("td", { staticClass: "text-xs-center" }, [
+                            _vm._v(_vm._s(props.item.nombre))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-xs-center" }, [
+                            _vm._v(_vm._s(props.item.celular))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-xs-center" }, [
+                            _vm._v(_vm._s(props.item.dni))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-xs-center" }, [
+                            _vm._v(_vm._s(props.item.ruc))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "text-xs-center" }, [
+                            _vm._v(_vm._s(props.item.correo))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "text-xs-center" },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "modal-trigger",
+                                  attrs: { flat: "", icon: "", color: "teal" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.enviarMensaje(props.item)
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mail")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      }
+                    }
+                  ])
+                },
+                [
+                  _c(
+                    "v-alert",
+                    {
+                      attrs: {
+                        slot: "no-results",
+                        value: true,
+                        color: "error",
+                        icon: "warning"
+                      },
+                      slot: "no-results"
+                    },
+                    [
+                      _vm._v(
+                        '\n                    No encontramos "' +
+                          _vm._s(_vm.search) +
+                          '" que buscabas.\n                    '
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("Contactos")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-fb969bae", module.exports)
+  }
+}
+
+/***/ }),
+/* 204 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetify_es5_util_colors__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetify_es5_util_colors___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuetify_es5_util_colors__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            mensajesDisponibles: '',
+            cantidadCampanias: '',
+            search: '',
+            todasRespuestas: [],
+            headers: [{ text: 'Nombre', align: 'center', value: 'nombre' }, { text: 'Celular', align: 'center', value: 'celular' }, { text: 'DNI', align: 'center', value: 'dni' }, { text: 'RUC', align: 'center', value: 'ruc' }, { text: 'Correo', align: 'center', value: 'correo' }, { text: 'Opciones', align: 'center', value: 'opciones' }]
+        };
+    },
+
+    created: function created() {
+        this.listarRespuesta();
+    },
+    methods: {
+        listarRespuesta: function listarRespuesta(mensajeriaId) {
+            var me = this;
+            var url = "/administrador/listarRespuestaByUser/";
+            axios.get(url).then(function (response) {
+                me.todasRespuestas = response.data;
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

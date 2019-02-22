@@ -8,7 +8,7 @@
    <link rel="shortcut icon" href="/img/logo.png">
    <link rel="stylesheet" href="/css/plantilla.css">
    <meta name="csrf-token" content="{{ csrf_token() }}">
-   <title>Whatsapp-mkt</title>
+   <title>Wasapping</title>
 </head>
 <body class="grey lighten-3">
    <div id="app">
@@ -23,6 +23,7 @@
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                <li><a href="/dashboard" class="flat waves-effect white-text">Dashboard</a></li>
+               <li><a href="/contactos" class="flat waves-effect white-text">Contactos</a></li>
                <li><a href="/mensajeria" class="flat waves-effect white-text">Mensajeria</a></li>
                <li>
                   <a class="dropdown-trigger" style="height:65px" data-target="dropdownOpciones"> 
@@ -37,7 +38,8 @@
       <ul class="sidenav" id="mobile-demo">
          
          <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-         <li><a href="/mensajeria"><i class="fas fa-users"></i> Mensajeria</a></li>
+         <li><a href="/contactos"><i class="fas fa-users"></i> Contactos</a></li>
+         <li><a href="/mensajeria"><i class="fas fa-envelope"></i> Mensajeria</a></li>
          <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
       </ul>
       <div style="margin-top:5em;">

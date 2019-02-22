@@ -13,4 +13,8 @@ class PagesController extends Controller
     public function mensajeria(){
         return view('plataforma/mensajeria');
     }
+
+    public function contactos(){
+        return view('plataforma/contactos');
+    }
 }

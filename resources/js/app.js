@@ -19,6 +19,7 @@ Vue.use(Vuetify,{
 Vue.component('dashboard', require('./components/Dashboard.vue'));
 Vue.component('mensajeria', require('./components/Mensajeria.vue'));
 Vue.component('pedidos', require('./components/Pedidos.vue'));
+Vue.component('contactos', require('./components/Contactos.vue'));
 
 
 const app = new Vue({
