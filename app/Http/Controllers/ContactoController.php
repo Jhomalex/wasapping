@@ -22,7 +22,7 @@ class ContactoController extends Controller
          */
         $filtros = $request->get('filtros');
 
-        $contacto=Contacto::where('centromedico_id','=',auth()->user()->id)
+        $contacto=Contacto::where('user_id','=',auth()->user()->id)
         ->when($filtros, function ($query, $filtros)
         {
             foreach ($filtros as $criterio => $filtro) {
@@ -55,6 +55,7 @@ class ContactoController extends Controller
             $contacto->dni=$request->get('dni');
             $contacto->ruc=$request->get('ruc');
             $contacto->correo=$request->get('correo');
+            $contacto->referencia=$request->get('referencia');
             $contacto->user_id=Auth::user()['id']; //Esto debe cambiar al implementar las funciones de los CM
             $contacto->save();
             return 'Ok';
@@ -77,7 +78,8 @@ class ContactoController extends Controller
         $contacto->celular=$request->get('celular');
         $contacto->dni=$request->get('dni');
         $contacto->ruc=$request->get('ruc');
-        $contacto->correo=$request->get('correo');;
+        $contacto->correo=$request->get('correo');
+        $contacto->referencia=$request->get('referencia');
         $this->authorize('update', $contacto);
         $contacto->save();
         return 'Ok';
