@@ -10,6 +10,10 @@ export default {
     dataTable: {
         rowsPerPageText: 'Linhas por página:'
     },
-    noDataText: 'Não há dados disponíveis'
+    noDataText: 'Não há dados disponíveis',
+    carousel: {
+        prev: 'Visual anterior',
+        next: 'Próximo visual'
+    }
 };
 //# sourceMappingURL=pt.js.map

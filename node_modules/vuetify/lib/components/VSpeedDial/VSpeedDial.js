@@ -64,9 +64,20 @@ export default {
             };
         }
         if (this.isActive) {
+            var btnCount = 0;
             children = (this.$slots.default || []).map(function (b, i) {
-                b.key = i;
-                return b;
+                if (b.tag && b.componentOptions.Ctor.options.name === 'v-btn') {
+                    btnCount++;
+                    return h('div', {
+                        style: {
+                            transitionDelay: btnCount * 0.05 + 's'
+                        },
+                        key: i
+                    }, [b]);
+                } else {
+                    b.key = i;
+                    return b;
+                }
             });
         }
         var list = h('transition-group', {

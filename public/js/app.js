@@ -15865,11 +15865,10 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
+	g = g || new Function("return this")();
+} catch (e) {
 	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
+	if (typeof window === "object") g = window;
 }
 
 // g can still be undefined, but nothing to do about it...
@@ -57455,11 +57454,11 @@ if (hadRuntime) {
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
-	if(!module.webpackPolyfill) {
+	if (!module.webpackPolyfill) {
 		module.deprecate = function() {};
 		module.paths = [];
 		// module.parent = undefined by default
-		if(!module.children) module.children = [];
+		if (!module.children) module.children = [];
 		Object.defineProperty(module, "loaded", {
 			enumerable: true,
 			get: function() {
@@ -60364,7 +60363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensajesDisponibles: '',
             cantidadCampanias: '',
             search: '',
-            todasRespuestas: [],
+            todosContactos: [],
             headers: [{ text: 'Nombre', align: 'center', value: 'nombre' }, { text: 'Celular', align: 'center', value: 'celular' }, { text: 'DNI', align: 'center', value: 'dni' }, { text: 'RUC', align: 'center', value: 'ruc' }, { text: 'Correo', align: 'center', value: 'correo' }, { text: 'Opciones', align: 'center', value: 'opciones' }]
         };
     },
@@ -60375,9 +60374,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         listarRespuesta: function listarRespuesta(mensajeriaId) {
             var me = this;
-            var url = "/administrador/listarRespuestaByUser/";
+            var url = "/contactos/listar/";
             axios.get(url).then(function (response) {
-                me.todasRespuestas = response.data;
+                me.todosContactos = response.data;
             });
         }
     }

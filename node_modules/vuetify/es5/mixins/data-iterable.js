@@ -251,15 +251,26 @@ exports.default = {
     },
     watch: {
         items: function items() {
+            var _this4 = this;
+
             if (this.pageStart >= this.itemsLength) {
                 this.resetPagination();
             }
+            var newItemKeys = new Set(this.items.map(function (item) {
+                return (0, _helpers.getObjectValueByPath)(item, _this4.itemKey);
+            }));
+            var selection = this.value.filter(function (item) {
+                return newItemKeys.has((0, _helpers.getObjectValueByPath)(item, _this4.itemKey));
+            });
+            if (selection.length !== this.value.length) {
+                this.$emit('input', selection);
+            }
         },
         search: function search() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.$nextTick(function () {
-                _this4.updatePagination({ page: 1, totalItems: _this4.itemsLength });
+                _this5.updatePagination({ page: 1, totalItems: _this5.itemsLength });
             });
         },
 
@@ -325,7 +336,7 @@ exports.default = {
             }
         },
         toggle: function toggle(value) {
-            var _this5 = this;
+            var _this6 = this;
 
             var selected = Object.assign({}, this.selected);
             for (var index = 0; index < this.filteredItems.length; index++) {
@@ -333,45 +344,45 @@ exports.default = {
                 selected[key] = value;
             }
             this.$emit('input', this.items.filter(function (i) {
-                var key = (0, _helpers.getObjectValueByPath)(i, _this5.itemKey);
+                var key = (0, _helpers.getObjectValueByPath)(i, _this6.itemKey);
                 return selected[key];
             }));
         },
         createProps: function createProps(item, index) {
-            var _this6 = this;
+            var _this7 = this;
 
             var props = { item: item, index: index };
             var keyProp = this.itemKey;
             var itemKey = (0, _helpers.getObjectValueByPath)(item, keyProp);
             Object.defineProperty(props, 'selected', {
                 get: function get() {
-                    return _this6.selected[itemKey];
+                    return _this7.selected[itemKey];
                 },
                 set: function set(value) {
                     if (itemKey == null) {
-                        (0, _console.consoleWarn)('"' + keyProp + '" attribute must be defined for item', _this6);
+                        (0, _console.consoleWarn)('"' + keyProp + '" attribute must be defined for item', _this7);
                     }
-                    var selected = _this6.value.slice();
+                    var selected = _this7.value.slice();
                     if (value) selected.push(item);else selected = selected.filter(function (i) {
                         return (0, _helpers.getObjectValueByPath)(i, keyProp) !== itemKey;
                     });
-                    _this6.$emit('input', selected);
+                    _this7.$emit('input', selected);
                 }
             });
             Object.defineProperty(props, 'expanded', {
                 get: function get() {
-                    return _this6.expanded[itemKey];
+                    return _this7.expanded[itemKey];
                 },
                 set: function set(value) {
                     if (itemKey == null) {
-                        (0, _console.consoleWarn)('"' + keyProp + '" attribute must be defined for item', _this6);
+                        (0, _console.consoleWarn)('"' + keyProp + '" attribute must be defined for item', _this7);
                     }
-                    if (!_this6.expand) {
-                        for (var key in _this6.expanded) {
-                            _this6.expanded.hasOwnProperty(key) && _this6.$set(_this6.expanded, key, false);
+                    if (!_this7.expand) {
+                        for (var key in _this7.expanded) {
+                            _this7.expanded.hasOwnProperty(key) && _this7.$set(_this7.expanded, key, false);
                         }
                     }
-                    _this6.$set(_this6.expanded, itemKey, value);
+                    _this7.$set(_this7.expanded, itemKey, value);
                 }
             });
             return props;
@@ -388,7 +399,7 @@ exports.default = {
             return this.genFilteredItems();
         },
         genPrevIcon: function genPrevIcon() {
-            var _this7 = this;
+            var _this8 = this;
 
             return this.$createElement(_VBtn2.default, {
                 props: {
@@ -398,8 +409,8 @@ exports.default = {
                 },
                 on: {
                     click: function click() {
-                        var page = _this7.computedPagination.page;
-                        _this7.updatePagination({ page: page - 1 });
+                        var page = _this8.computedPagination.page;
+                        _this8.updatePagination({ page: page - 1 });
                     }
                 },
                 attrs: {
@@ -408,7 +419,7 @@ exports.default = {
             }, [this.$createElement(_VIcon2.default, this.$vuetify.rtl ? this.nextIcon : this.prevIcon)]);
         },
         genNextIcon: function genNextIcon() {
-            var _this8 = this;
+            var _this9 = this;
 
             var pagination = this.computedPagination;
             var disabled = pagination.rowsPerPage < 0 || pagination.page * pagination.rowsPerPage >= this.itemsLength || this.pageStop < 0;
@@ -420,8 +431,8 @@ exports.default = {
                 },
                 on: {
                     click: function click() {
-                        var page = _this8.computedPagination.page;
-                        _this8.updatePagination({ page: page + 1 });
+                        var page = _this9.computedPagination.page;
+                        _this9.updatePagination({ page: page + 1 });
                     }
                 },
                 attrs: {
@@ -430,7 +441,7 @@ exports.default = {
             }, [this.$createElement(_VIcon2.default, this.$vuetify.rtl ? this.prevIcon : this.nextIcon)]);
         },
         genSelect: function genSelect() {
-            var _this9 = this;
+            var _this10 = this;
 
             return this.$createElement('div', {
                 'class': this.actionsSelectClasses
@@ -451,7 +462,7 @@ exports.default = {
                 },
                 on: {
                     input: function input(val) {
-                        _this9.updatePagination({
+                        _this10.updatePagination({
                             page: 1,
                             rowsPerPage: val
                         });
@@ -460,7 +471,7 @@ exports.default = {
             })]);
         },
         genPagination: function genPagination() {
-            var _this10 = this;
+            var _this11 = this;
 
             var pagination = '–';
             if (this.itemsLength) {
@@ -472,7 +483,7 @@ exports.default = {
                     pageStop: stop,
                     itemsLength: this.itemsLength
                 }) : (_$vuetify = this.$vuetify).t.apply(_$vuetify, ['$vuetify.dataIterator.pageText'].concat(_toConsumableArray([this.pageStart + 1, stop, this.itemsLength].map(function (n) {
-                    return Number(n).toLocaleString(_this10.$vuetify.lang.current);
+                    return Number(n).toLocaleString(_this11.$vuetify.lang.current);
                 }))));
             }
             return this.$createElement('div', {

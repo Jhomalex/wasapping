@@ -20,7 +20,7 @@
                     </v-card-title>
                     <v-data-table
                         :headers="headers"
-                        :items="todasRespuestas"
+                        :items="todosContactos"
                         :search="search"
                     >
                         <template slot="items" slot-scope="props">
@@ -54,7 +54,7 @@
                 mensajesDisponibles:'',
                 cantidadCampanias : '',
                 search : '',
-                todasRespuestas : [],
+                todosContactos : [],
                 headers: [
                     { text: 'Nombre', align: 'center', value: 'nombre' },
                     { text: 'Celular', align: 'center', value: 'celular' },
@@ -71,9 +71,9 @@
         methods:{
             listarRespuesta: function(mensajeriaId) {
                 let me = this;
-                var url = "/administrador/listarRespuestaByUser/";
+                var url = "/contactos/listar/";
                 axios.get(url).then(response => {
-                    me.todasRespuestas = response.data;
+                    me.todosContactos = response.data;
                 });
             },  
         }
