@@ -29,25 +29,30 @@ class MensajeriaController extends Controller
         ]);
 
         $mensajeria=new Mensajeria();
-        $mensajeria->nombre=request()->nombre;
-        $mensajeria->descripcion=request()->descripcion;
+        $mensajeria->nombre=$request->nombre;
+        $mensajeria->descripcion=$request->descripcion;
         $mensajeria->user_id=auth()->id();
-        
         $mensajeria->save();
+        
+        $mensajeria->contactos()->attach($request->get('contactos'));
+        
         return "Ok";
     }
 
     public function edit(Request $request){
         $request->validate([
             'id' => 'required',
-            'campania' => 'required|max:250',
-            'mensaje' => 'required',
+            'nombre' => 'required|max:250',
+            'descripcion' => 'required',
         ]);
 
-        $mensajeria=Mensajeria::find(request()->id);
-        $mensajeria->nombre = request()->nombre;
-        $mensajeria->descripcion = request()->mensaje;
+        $mensajeria=Mensajeria::find($request->id);
+        $mensajeria->nombre = $request->nombre;
+        $mensajeria->descripcion = $request->mensaje;
         $mensajeria->save();
+
+        $this.asignarContactos($mensajeria, $request->get('contactos'));
+
         return 'Ok';
     }
 
@@ -55,8 +60,9 @@ class MensajeriaController extends Controller
         $request->validate([
             'id' => 'required',
         ]);
-
-        $mensajeria=Mensajeria::find(request()->id);
+        $mensajeria_id = request()->id;
+        $mensajeria=Mensajeria::find($mensajeria_id);
+        // DB::table('contacto_mensajeria')->where('mensajeria_id',$mensajeria_id)->get();
         $mensajeria->delete();
         return 'Ok';
     }
@@ -87,5 +93,16 @@ class MensajeriaController extends Controller
     public function contarCampanias(){
         $mensajeria = Mensajeria::where('user_id','=', auth()->id())->count();
         return $mensajeria;
+    }
+
+    public function asignarContactos(Mensajeria $mensajeria, Array $contactos)
+    {
+        if ($contactos) {
+            foreach ($contactos_id as $contacto_id) {
+                if (DB::table('contacto_mensajeria')->where('mensajeria_id','=',$mensajeria->id)->where('contacto_id','=',$contacto_id)->doesntExist()) {
+                    $mensajeria->contactos()->attach($contacto_id);
+                }
+            }
+        }
     }
 }

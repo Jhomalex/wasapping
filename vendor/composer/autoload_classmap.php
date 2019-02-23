@@ -23,6 +23,7 @@ return array(
     'App\\Contacto' => $baseDir . '/app/Contacto.php',
     'App\\Contrato' => $baseDir . '/app/Contrato.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\ActividadController' => $baseDir . '/app/Http/Controllers/ActividadController.php',
     'App\\Http\\Controllers\\AdminPagesController' => $baseDir . '/app/Http/Controllers/AdminPagesController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',

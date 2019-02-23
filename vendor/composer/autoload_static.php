@@ -467,6 +467,7 @@ class ComposerStaticInita05a0591c97da0dd6d55fe13c5a65c9f
         'App\\Contacto' => __DIR__ . '/../..' . '/app/Contacto.php',
         'App\\Contrato' => __DIR__ . '/../..' . '/app/Contrato.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\ActividadController' => __DIR__ . '/../..' . '/app/Http/Controllers/ActividadController.php',
         'App\\Http\\Controllers\\AdminPagesController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminPagesController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',

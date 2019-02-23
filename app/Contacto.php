@@ -8,6 +8,6 @@ use App\Mensajeria;
 class Contacto extends Model
 {
     public function mensajerias(){
-        return $this->belongsTo(Mensajeria::class);
+        return $this->belongsToMany(Mensajeria::class);
     }
 }

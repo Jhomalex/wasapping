@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class Mensajeria extends Model
 {
     public function contactos(){
-        return $this->hasMany(Contacto::class);
+        return $this->belongsToMany(Contacto::class);
     }
 
     public function users(){
