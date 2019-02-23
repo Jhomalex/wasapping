@@ -462,6 +462,7 @@ class ComposerStaticInita05a0591c97da0dd6d55fe13c5a65c9f
         'Aloha\\Twilio\\Support\\Laravel\\ServiceProviderTrait' => __DIR__ . '/..' . '/aloha/twilio/src/Support/Laravel/ServiceProviderTrait.php',
         'Aloha\\Twilio\\Twilio' => __DIR__ . '/..' . '/aloha/twilio/src/Twilio.php',
         'Aloha\\Twilio\\TwilioInterface' => __DIR__ . '/..' . '/aloha/twilio/src/TwilioInterface.php',
+        'App\\Actividad' => __DIR__ . '/../..' . '/app/Actividad.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Contacto' => __DIR__ . '/../..' . '/app/Contacto.php',
         'App\\Contrato' => __DIR__ . '/../..' . '/app/Contrato.php',

@@ -18,9 +18,7 @@ class MensajeriaController extends Controller
 
     public function listarTodos(){
         $mensajeria = DB::table('mensajerias')
-        ->join('users','mensajerias.user_id','=','users.id')
-        ->select('mensajerias.id','mensajerias.campania','mensajerias.mensaje','users.nombre AS usuario',
-        'mensajerias.fecha AS fecha','mensajerias.horamin AS horamin','mensajerias.horamax AS horamax')->get();
+        ->join('users','mensajerias.user_id','=','users.id')->get();
         return $mensajeria;
     }
 

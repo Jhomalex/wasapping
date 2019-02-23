@@ -18,6 +18,7 @@ return array(
     'Aloha\\Twilio\\Support\\Laravel\\ServiceProviderTrait' => $vendorDir . '/aloha/twilio/src/Support/Laravel/ServiceProviderTrait.php',
     'Aloha\\Twilio\\Twilio' => $vendorDir . '/aloha/twilio/src/Twilio.php',
     'Aloha\\Twilio\\TwilioInterface' => $vendorDir . '/aloha/twilio/src/TwilioInterface.php',
+    'App\\Actividad' => $baseDir . '/app/Actividad.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Contacto' => $baseDir . '/app/Contacto.php',
     'App\\Contrato' => $baseDir . '/app/Contrato.php',
