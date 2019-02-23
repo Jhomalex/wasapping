@@ -20,6 +20,7 @@ class CreateContactosTable extends Migration
             $table->string('dni', '8')->nullable();
             $table->string('ruc', '11')->nullable();
             $table->string('correo')->nullable();
+            $table->longtext('referencia')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();
         });
