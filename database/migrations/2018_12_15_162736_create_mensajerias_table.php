@@ -15,13 +15,8 @@ class CreateMensajeriasTable extends Migration
     {
         Schema::create('mensajerias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('campania');
-            $table->longText('mensaje');
-            $table->mediumText('archivo');
-            $table->mediumText('url');
-            $table->date('fecha');
-            $table->time('horamin');
-            $table->time('horamax');
+            $table->string('nombre');
+            $table->longText('descripcion');
             $table->unsignedInteger('user_id');
             $table->timestamps();
         });

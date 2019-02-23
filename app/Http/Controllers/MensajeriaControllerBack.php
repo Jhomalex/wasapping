@@ -17,6 +17,7 @@ class MensajeriaController extends Controller
 {
 
     public function listarTodos(){
+   //     $mensajeria = Mensajeria::all();
         $mensajeria = DB::table('mensajerias')
         ->join('users','mensajerias.user_id','=','users.id')
         ->select('mensajerias.id','mensajerias.campania','mensajerias.mensaje','users.nombre AS usuario',
@@ -26,17 +27,40 @@ class MensajeriaController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'nombre' => 'required',
-            'descripcion' => 'required',
+            'campania' => 'required|max:250',
+            'mensaje' => 'required',
+            'archivo' => 'required|mimes:xlsx|max:2048',
+            'fecha' => 'required',
+            'horamin' => 'required',
+            'horamax' => 'required',
         ]);
+        $archivo=request()->archivo;
+        $ruta=Storage::disk('public')->put('archivos', $archivo);
 
         $mensajeria=new Mensajeria();
-        $mensajeria->nombre=request()->nombre;
-        $mensajeria->descripcion=request()->descripcion;
+        $mensajeria->campania=request()->campania;
+        $mensajeria->mensaje=request()->mensaje;
+        $mensajeria->url=Storage::url($ruta);
+        $mensajeria->archivo=basename($ruta);
+        $mensajeria->fecha=request()->fecha;
+        $mensajeria->horamin=request()->horamin;
+        $mensajeria->horamax=request()->horamax;
         $mensajeria->user_id=auth()->id();
         
-        $mensajeria->save();
-        return "Ok";
+        $mensajes = Excel::toArray(new ContactoImport,'./public/archivos/'.$mensajeria->archivo);
+        $cantidadMensajes=count($mensajes[0]) - 1;
+        $contrato = Contrato::where('user_id','=',auth()->id())->orderBy('created_at','ASC')->first();
+        
+        if($contrato['total'] < $cantidadMensajes + $contrato['progreso']){
+            return "Exceso";
+        }else{
+            $contrato->progreso = $contrato->progreso + $cantidadMensajes;
+            $mensajeria->save();
+            $contrato->save();
+            $this->sendMail();
+
+            return "Ok";
+        }
     }
 
     public function edit(Request $request){
@@ -47,8 +71,8 @@ class MensajeriaController extends Controller
         ]);
 
         $mensajeria=Mensajeria::find(request()->id);
-        $mensajeria->nombre = request()->nombre;
-        $mensajeria->descripcion = request()->mensaje;
+        $mensajeria->campania = request()->campania;
+        $mensajeria->mensaje = request()->mensaje;
         $mensajeria->save();
         return 'Ok';
     }
