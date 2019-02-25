@@ -38,9 +38,9 @@ class ActividadController extends Controller
             'fechaHoraActividad' => 'required',
         ]);
 
-        $actividad = Actividad::find(request()->id);
-        $actividad->nombre = request()->nombre;
-        $actividad->fechaHoraActividad = request()->fechaHoraActividad;
+        $actividad = Actividad::find($request->id);
+        $actividad->nombre = $request->nombre;
+        $actividad->fechaHoraActividad = $request->fechaHoraActividad;
         $actividad->save();
         return 'Ok';
     }
@@ -50,7 +50,7 @@ class ActividadController extends Controller
             'id' => 'required',
         ]);
 
-        $actividad = Actividad::find(request()->id);
+        $actividad = Actividad::find($request->id);
         $actividad->delete();
         return 'Ok';
     }
