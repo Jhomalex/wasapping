@@ -17,7 +17,7 @@ class ActividadController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'nombre' => 'required',
+            'fechaHoraActividad' => 'required',
             'descripcion' => 'required',
         ]);
 
