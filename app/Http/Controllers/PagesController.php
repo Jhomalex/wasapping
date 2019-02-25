@@ -20,7 +20,13 @@ class PagesController extends Controller
     }
 
     public function perfilcontacto($id){
-        $contacto=Contacto::where('contactos.id','=',$id)->get();
-        return view('plataforma.perfilcontacto',compact('contacto'));
+
+        $contacto =Contacto::find($id);
+        if ($contacto->id == auth()->user()->id) {
+            $contacto=Contacto::where('contactos.id','=',$id)->get();
+            return view('plataforma.perfilcontacto',compact('contacto'));
+        } else {
+            return "No";
+        };
     }
 }
