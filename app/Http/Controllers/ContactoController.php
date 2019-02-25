@@ -80,11 +80,22 @@ class ContactoController extends Controller
         ]);
 
         $archivo=request()->archivo;
-        $ruta=Storage::disk('public')->put('archivos', $archivo);
+        //$ruta=Storage::disk('public')->put('archivos', $archivo);  --> Si quisiera guardar el Excel
+        $excelArray = Excel::toArray(new ContactoImport,$archivo); //Excel:: devuelve un Arreglo contenido en otro arreglo
+        $excelRows = $excelArray[0]; //Las filas del Excel están dentro del arreglo contenido
+        for($i = 1; $i < sizeof($excelRows); $i++){
+            $contacto = $excelRows[$i]; // La fila 0 es el encabezado, por lo que no se toma en cuenta
+            $nuevoContacto = new Contacto;
+            $nuevoContacto->nombre = $contacto[0];
+            $nuevoContacto->celular = $contacto[1];
+            $nuevoContacto->dni = $contacto[2];
+            $nuevoContacto->ruc = $contacto[3];
+            $nuevoContacto->correo = $contacto[4];
+            $nuevoContacto->user_id = auth()->user()->id;
+            $nuevoContacto->save();
+        }
 
-        $contactosList = Excel::toArray(new ContactoImport,'./public/archivos/'.basename($ruta));
-
-        return $contactosList;
+        return 'Ok';
     }
     
     public function update(Request $request){
@@ -96,14 +107,13 @@ class ContactoController extends Controller
             'ruc' => 'max:11',
             'correo' => 'required|email',
         ]);
-        //Buscamos al contacto
+        $contacto = Contacto::find($request->get('id'));
         $contacto->nombre=$request->get('nombre');
         $contacto->celular=$request->get('celular');
         $contacto->dni=$request->get('dni');
         $contacto->ruc=$request->get('ruc');
         $contacto->correo=$request->get('correo');
         $contacto->referencia=$request->get('referencia');
-        $this->authorize('update', $contacto);
         $contacto->save();
         return 'Ok';
     }
@@ -111,10 +121,14 @@ class ContactoController extends Controller
     public function delete(Request $request){
         $id=$request->get('id');
         $contacto=Contacto::findOrFail($id);
-        $this->authorize('delete', $contacto);
         // Falta eliminar relaciones de este contacto
         // DB::table('contacto_grupomsj')->where('contacto_id',$id)->get();
         $contacto->delete();
         return 'Ok';
+    }
+
+    public function contartodos()
+    {
+        return Contacto::count();
     }
 }

@@ -9,7 +9,6 @@ import 'chart.js/dist/Chart.min.js'
 import { MdField, MdMenu, MdList } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 
-
 Vue.use(MdField);
 Vue.use(MdMenu);
 Vue.use(MdList);
@@ -17,11 +16,12 @@ Vue.use(MdList);
 Vue.use(Vuetify,{
     iconfont: 'fa'
 });
-
+export var moment = require('moment');
 import dashboard from './components/Dashboard.vue';
 import mensajeria from './components/Mensajeria.vue';
 import pedidos from './components/Pedidos.vue';
 import contactos from './components/Contactos.vue';
+import perfil_contacto from './components/PerfilContacto.vue';
 
 
 
@@ -32,5 +32,6 @@ const app = new Vue({
         mensajeria,
         pedidos,
         contactos,
+        perfil_contacto,
     }
 });

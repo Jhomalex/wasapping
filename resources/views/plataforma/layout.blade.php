@@ -24,7 +24,7 @@
             <ul class="right hide-on-med-and-down">
                <li><a href="/dashboard" class="flat waves-effect white-text">Dashboard</a></li>
                <li><a href="/contactos" class="flat waves-effect white-text">Contactos</a></li>
-               <li><a href="/mensajeria" class="flat waves-effect white-text">Mensajeria</a></li>
+               {{-- <li><a href="/mensajeria" class="flat waves-effect white-text">Mensajeria</a></li> --}}
                <li>
                   <a class="dropdown-trigger" style="height:65px" data-target="dropdownOpciones"> 
                      <img class="circle responsive" style="margin-top:10px;margin-left:5px;margin-right:5px" src="/img/usuarios/{{ Auth::user()['foto'] }}" height="40px" width="40px"></img> 
@@ -39,7 +39,7 @@
          
          <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
          <li><a href="/contactos"><i class="fas fa-users"></i> Contactos</a></li>
-         <li><a href="/mensajeria"><i class="fas fa-envelope"></i> Mensajeria</a></li>
+         {{-- <li><a href="/mensajeria"><i class="fas fa-envelope"></i> Mensajeria</a></li> --}}
          <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
       </ul>
       <div style="margin-top:5em;">

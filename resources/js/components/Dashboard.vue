@@ -13,10 +13,10 @@
                                 <v-card-title primary-title>
                                     <div>
                                         <div class="headline">
-                                            <span v-text="mensajesDisponibles" class="white-text numero-card-dashboard"></span>
+                                            <span v-text="numeroContactos" class="white-text numero-card-dashboard"></span>
                                         </div>
                                         <div>
-                                            <span class="white-text texto-card-dashboard">MENSAJES DISPONIBLES</span>
+                                            <span class="white-text texto-card-dashboard">CONTACTOS REGISTRADOS</span>
                                         </div>
                                     </div>
                                 </v-card-title>
@@ -39,7 +39,7 @@
                                             <span v-text="cantidadCampanias" class="white-text numero-card-dashboard"></span>
                                         </div>
                                         <div>
-                                            <span class="white-text texto-card-dashboard">CAMPAÑAS ENVIADAS</span>
+                                            <span class="white-text texto-card-dashboard">MENSAJES ENVIADOS</span>
                                         </div>
                                     </div>
                                 </v-card-title>
@@ -101,7 +101,7 @@
 
             </div>
 
-            <template>
+            <!-- <template>
                 <v-card flat>
                     <v-card-title>
                         <h5>Lista de respuestas</h5>
@@ -132,7 +132,7 @@
                         </v-alert>
                     </v-data-table>
                 </v-card>
-            </template>
+            </template> -->
 
         </div>
     </div>
@@ -148,6 +148,7 @@
             return {
                 mensajesDisponibles:'',
                 cantidadCampanias : '',
+                numeroContactos: '',
                 search : '',
                 todasRespuestas : [],
                 headers: [
@@ -162,6 +163,7 @@
             this.contarDisponibles();
             this.contarCampanias();
             this.listarRespuesta();
+            this.contarContactos();
         },
         methods:{
             enviarTwilio:function(){
@@ -175,6 +177,14 @@
                 var url = '/administrador/contarMensajerias';
                 axios.get(url).then(response => {
                     me.mensajesDisponibles = response.data;
+                });
+            },
+
+            contarContactos : function () {
+                let me = this;
+                var url = '/contactos/contartodos';
+                axios.get(url).then(response => {
+                    me.numeroContactos = response.data;
                 });
             },
 

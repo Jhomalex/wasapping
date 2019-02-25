@@ -5,7 +5,7 @@ Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('/dashboard', 'PagesController@dashboard')->middleware('auth')->name('dashboard');
 
 Route::group(['prefix'=>'mensajeria','middleware'=> 'auth'],function(){
-    Route::get('/', 'PagesController@mensajeria')->name('mensajeria');
+    // Route::get('/', 'PagesController@mensajeria')->name('mensajeria');
     Route::get('/listar', 'ContactoController@listar')->name('contactos.listar');
     Route::post('/store','MensajeriaController@store')->name('mensajeria.crear');
     Route::post('/edit','MensajeriaController@edit')->name('mensajeria.editar');
@@ -16,10 +16,14 @@ Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
     Route::get('/', 'PagesController@contactos')->name('contactos');
     Route::post('/listar', 'ContactoController@listar')->name('contactos.listar');
     Route::post('/storevarios', 'ContactoController@storevarios')->name('contactos.storevarios');
+    Route::post('/update', 'ContactoController@update')->name('contactos.update');
+    Route::post('/delete', 'ContactoController@delete')->name('contactos.delete');
+    Route::get('/perfil/{contacto_id}', 'PagesController@perfilcontacto')->name('contactos.perfil');
+    Route::get('/contartodos', 'ContactoController@contartodos')->name('contactos.contartodos');
 });
 
 Route::group(['prefix'=>'administrador','middleware'=> 'auth'],function(){
-    Route::get('/', 'AdminPagesController@mensajeria')->name('mensajeria');
+    // Route::get('/', 'AdminPagesController@mensajeria')->name('mensajeria');
     Route::get('/listar', 'MensajeriaController@listarTodos')->name('mensajeria.listar');
     Route::get('mail/send', 'MailController@send');
     Route::post('/store','MensajeriaController@store')->name('mensajeria.crear');

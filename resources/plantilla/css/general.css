@@ -119,3 +119,21 @@
   top: 5% !important;
   will-change: top, opacity;
 }
+
+.tabs .tab a{
+   color:black;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+   background-color:rgb(148, 226, 226);
+   color:#000;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+   background-color:white;
+   color:teal;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+   background-color:teal;
+}

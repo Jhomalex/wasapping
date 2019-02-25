@@ -16,7 +16,10 @@ class ContactoImport implements ToModel
     {
         return new Contacto([
             'nombre'     => $row[0],
-            'celular'    => $row[1], 
+            'celular'    => $row[1],
+            'dni'        => $row[2],
+            'ruc'        => $row[3],
+            'correo'     => $row[4],
             //'mensajeria_id' => '1',
         ]);
     }

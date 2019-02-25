@@ -39,24 +39,23 @@
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="text-xs-left">{{ props.item.dni }}</td>
                 <td class="text-xs-left">{{ props.item.ruc }}</td>
-                <td class="text-xs-left">{{ props.item.celular }} - {{ props.item.horamax }}</td>
+                <td class="text-xs-left">{{ props.item.celular }}</td>
                 <td class="text-xs-left">{{ props.item.correo }}</td>
                 <td class="text-xs-center">
+                  <v-btn flat icon color="primary" @click="irPerfilContacto(props.item.id)">
+                    <v-icon>person</v-icon>
+                  </v-btn>
                   <v-btn
                     flat
                     icon
                     color="warning"
-                    @click="idMensajeriaEditar=props.item.id;
-                    mensaje=props.item.mensaje;
-                    campania=props.item.campania;
-                    nuevaRespuesta.mensajeriaId=props.item.id
-                    listarRespuesta(props.item.id);"
-                    href="#modalEditarMensajeria"
+                    @click="mostrarModalEditar(props.item)"
+                    href="#EditarContactosModal"
                     class="modal-trigger"
                   >
                     <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn flat icon color="red" @click="deleteMensaje(props.item.id)">
+                  <v-btn flat icon color="red" @click="deleteContacto(props.item.id)">
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
@@ -72,14 +71,11 @@
         </template>
       </div>
     </div>
-    <!-- FORMULARIO CREAR CONTACTO -->
+    <!-- FORMULARIO CREAR CONTACTOS -->
     <div id="CrearContactosModal" class="modal modal-fixed-footer">
       <div class="modal-content">
-        <h4 v-text="tituloModal"></h4>
+        <h4>Crear Contacto</h4>
         <form method="POST" v-on:submit.prevent="storeContactos">
-          <div class="row">
-            <h5>Crear Contacto</h5>
-          </div>
           <div class="row">
             <div class="col s12 m12">
               <md-field>
@@ -97,7 +93,101 @@
           class="modal-close waves-effect waves-red btn-flat"
           @click="limpiarFormulario()"
         >Cancelar</a>
-        <a @click="storeContactos()" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+        <a
+          @click="storeContactos();limpiarFormulario()"
+          class="modal-close waves-effect waves-green btn-flat"
+        >Aceptar</a>
+      </div>
+    </div>
+
+    <!-- FORMULARIO EDITAR CONTACTO -->
+    <div id="EditarContactosModal" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Editar Contacto</h4>
+        <form method="POST" v-on:submit.prevent="editContacto">
+          <div class="row">
+            <div class="col s12 m6">
+              <input
+                id="nombre"
+                v-model="nombre"
+                type="text"
+                placeholder="Escribe el nombre del contacto"
+                required
+              >
+              <label for="nombre">Nombre del contacto</label>
+            </div>
+            <div class="col s12 m6">
+              <input
+                id="celular"
+                v-model="celular"
+                type="text"
+                maxlength="9"
+                placeholder="Escribe el celular del contacto"
+                required
+              >
+              <label for="celular">Celular del contacto</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m6">
+              <input
+                id="dni"
+                v-model="dni"
+                maxlength="8"
+                type="text"
+                placeholder="Escribe el DNI del contacto"
+                required
+              >
+              <label for="dni">DNI del contacto</label>
+            </div>
+            <div class="col s12 m6">
+              <input
+                id="ruc"
+                v-model="ruc"
+                maxlength="11"
+                type="text"
+                placeholder="Escribe el RUC del contacto"
+                required
+              >
+              <label for="ruc">RUC del contacto</label>
+            </div>
+            <div class="row">
+              <div class="col s12 m6">
+                <input
+                  id="correo"
+                  v-model="correo"
+                  type="text"
+                  placeholder="Escribe el correo del contacto"
+                  required
+                >
+                <label for="correo">Correo del contacto</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <textarea
+                  id="referencia"
+                  v-model="referencia"
+                  class="materialize-textarea"
+                  placeholder="Escribe alguna referencia del contacto"
+                  data-length="300"
+                ></textarea>
+                <label for="referencia">Referencia del contacto</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a
+          href="#"
+          class="modal-close waves-effect waves-red btn-flat"
+          @click="limpiarFormulario()"
+        >Cancelar</a>
+        <a
+          @click="editContacto()"
+          class="modal-close waves-effect waves-green btn-flat"
+        >Aceptar</a>
       </div>
     </div>
     <!-- BOTÓN FLOTANTE PARA ENVIAR MENSAJES -->
@@ -123,7 +213,15 @@ export default {
       selected: [],
       search: "",
       todosContactos: [],
+      idContacto:'',
+      nombre:'',
+      celular:'',
+      dni:'',
+      ruc:'',
+      correo:'',
+      referencia:'',
       nombreArchivo: "",
+      archivo: null,
       headers: [
         {
           text: "Nombre",
@@ -169,11 +267,21 @@ export default {
   },
 
   methods: {
+    limpiarFormulario: function() {
+      let me = this;
+      me.archivo = null;
+      me.nombreArchivo = "";
+      me.nombre = '';
+      me.celular = '';
+      me.dni = '';
+      me.ruc = '';
+      me.correo = '';
+      me.referencia = '';
+    },
     listarContactos: function() {
       let me = this;
       const fd = new FormData();
-      var a = [{ nombre: "A" }];
-      console.log(a);
+      var a = [{ nombre: "" }];
       fd.append("filtros", JSON.stringify(a));
       axios
         .post("/contactos/listar", fd)
@@ -224,6 +332,119 @@ export default {
             timer: 2500
           });
         });
+    },
+
+    mostrarModalEditar : function (contacto) {
+        this.idContacto = contacto.id;
+        this.nombre = contacto.nombre;
+        this.celular = contacto.celular;
+        this.dni = contacto.dni;
+        this.ruc = contacto.ruc;
+        this.correo = contacto.correo;
+        this.referencia = contacto.referencia;
+    },
+
+    editContacto: function(){
+      let me = this;
+      const fd=new FormData();
+      fd.append('id',me.idContacto);
+      fd.append('nombre',me.nombre);
+      fd.append('celular',me.celular);
+      fd.append('dni',me.dni);
+      fd.append('ruc',me.ruc);
+      fd.append('correo',me.correo);
+      fd.append('referencia',me.referencia);
+      axios.post('/contactos/update', fd
+      ).then(function(response){
+        me.listarContactos();
+        me.limpiarFormulario();
+        if(response.data=='Ok'){
+          Swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Se editó el contacto con éxito',
+
+            showConfirmButton: false,
+            timer: 2500
+          });
+        }else{
+          Swal({
+            position: 'top-end',
+            type: 'error',
+            title: 'Ha habido un error al editar el contacto, intentalo nuevamente',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        }
+      }).catch(function(error){
+          console.log(error);
+          Swal({
+            position: 'top-end',
+            type: 'error',
+            title: 'Ha habido un error al editar el contacto, comunícate con nuestro equipo técnico',
+            showConfirmButton: false,
+            timer: 2500
+          })
+      });
+    },
+
+    irPerfilContacto: function(contacto_id) {
+      var url = "/contactos/perfil/" + contacto_id;
+      location.href = url;
+    },
+
+    deleteContacto: function(contacto_id) {
+      let me = this;
+      Swal({
+        title: "¿Estás seguro de eliminar este contacto?",
+        text:
+          "Ten en cuenta que se borrará esta mensajería y no podrá recuperarse",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#009688",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, elimínalo",
+        cancelButtonText: "Cancelar"
+      }).then(result => {
+        if (result.value) {
+          const fd = new FormData();
+          fd.append("id", contacto_id);
+          axios
+            .post("/contactos/delete", fd)
+            .then(function(response) {
+              me.listarContactos();
+              if (response.data == "Ok") {
+                Swal({
+                  position: "top-end",
+                  type: "success",
+                  title: "Se eliminó el contacto",
+                  showConfirmButton: false,
+                  timer: 2500
+                });
+              } else {
+                Swal({
+                  position: "top-end",
+                  type: "error",
+                  title:
+                    "Ha habido un error al eliminar el contacto, intentalo nuevamente",
+                  showConfirmButton: false,
+                  timer: 2500
+                });
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+              Swal({
+                position: "top-end",
+                type: "error",
+                title:
+                  "Ha habido un error al eliminar el contacto, comunícate con nuestro equipo técnico",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            });
+        }
+      });
     },
 
     mensajeModal: function() {

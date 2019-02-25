@@ -5,7 +5,7 @@ $(document).ready(function(){
    dismissible: false
   });
   $('select').formSelect();
-  $('#dni, #celular').characterCounter();
+  $('#dni, #celular, #ruc').characterCounter();
   $('#textarea1').val();
   $('.tabs').tabs();
   $('.datepicker').datepicker();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contacto;
 
 class PagesController extends Controller
 {
@@ -16,5 +17,10 @@ class PagesController extends Controller
 
     public function contactos(){
         return view('plataforma/contactos');
+    }
+
+    public function perfilcontacto($id){
+        $contacto=Contacto::where('contactos.id','=',$id)->get();
+        return view('plataforma.perfilcontacto',compact('contacto'));
     }
 }
