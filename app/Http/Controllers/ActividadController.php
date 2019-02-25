@@ -33,13 +33,13 @@ class ActividadController extends Controller
     public function edit(Request $request){
         $request->validate([
             'id' => 'required',
-            'campania' => 'required|max:250',
-            'mensaje' => 'required',
+            'descripcion' => 'required',
+            'fechaHoraActividad' => 'required',
         ]);
 
         $actividad = Actividad::find(request()->id);
         $actividad->nombre = request()->nombre;
-        $actividad->descripcion = request()->mensaje;
+        $actividad->fechaHoraActividad = request()->fechaHoraActividad;
         $actividad->save();
         return 'Ok';
     }

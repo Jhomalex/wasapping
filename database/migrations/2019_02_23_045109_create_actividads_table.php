@@ -17,7 +17,7 @@ class CreateActividadsTable extends Migration
             $table->increments('id');
             $table->longText('descripcion');
             $table->dateTime('fechaHoraActividad');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('contacto_id');
             $table->timestamps();
         });
     }
