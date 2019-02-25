@@ -16,7 +16,7 @@ class CreateActividadsTable extends Migration
         Schema::create('actividads', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('descripcion');
-            $table->dateTime('fechaHoraActividad');
+            $table->dateTime('fechaHoraContactado');
             $table->unsignedInteger('contacto_id');
             $table->timestamps();
         });

@@ -16,30 +16,30 @@ class ActividadController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'fechaHoraActividad' => 'required',
+            'fechaHoraContactado' => 'required',
             'descripcion' => 'required',
             'contacto_id' => 'required'
         ]);
 
         $actividad = new Actividad();
-        $actividad->nombre=$request->nombre;
         $actividad->descripcion=$request->descripcion;
+        $actividad->fechaHoraContactado=$request->fechaHoraContactado;
         $actividad->contacto_id= $request->contacto_id;
         
         $actividad->save();
         return "Ok";
     }
 
-    public function edit(Request $request){
+    public function update(Request $request){
         $request->validate([
             'id' => 'required',
             'descripcion' => 'required',
-            'fechaHoraActividad' => 'required',
+            'fechaHoraContactado' => 'required',
         ]);
-
+        
         $actividad = Actividad::find($request->id);
-        $actividad->nombre = $request->nombre;
-        $actividad->fechaHoraActividad = $request->fechaHoraActividad;
+        $actividad->descripcion = $request->descripcion;
+        $actividad->fechaHoraContactado = $request->fechaHoraContactado;
         $actividad->save();
         return 'Ok';
     }
