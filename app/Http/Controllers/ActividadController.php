@@ -8,10 +8,9 @@ use App\Http\Controllers\Controller;
 
 class ActividadController extends Controller
 {
-    public function listar()
+    public function listar(Request $request)
     {
-        $actividad = DB::table('actividads')
-        ->join('contactos','actividads.contacto_id','=','contactos.id')->get();
+        $actividad = Actividad::where('actividads.contacto_id','=',$request->contacto_id)->get();
         return $actividad;
     }
 

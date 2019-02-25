@@ -40,7 +40,7 @@
             </ul>
             <div>
                <span style="font-size:14px;" class="grey-text text-darken-3">Registrar</span>
-               <button class="btn-small teal z-depth-0 waves-effect" @click="abrirModalActividad('crear')" style="margin-top:2px">Actividad</button>
+               <a class="btn-small teal z-depth-0 waves-effect modal-trigger" @click="tipoAccion = 1" href="#actividadModal" style="margin-top:2px">Actividad</a>
             </div>
             <div id="test-swipe-1">
                <v-list two-line>
@@ -73,6 +73,47 @@
         </div>
       </div>
     </div>
+    <!-- MODAL ACTIVIDAD -->
+    <div id="actividadModal" class="modal modal-fixed-footer" >
+      <div class="modal-content">
+         <h4 v-if="tipoAccion == 1">Crear Actividad</h4>
+         <h4 v-if="tipoAccion == 2">Editar Actividad</h4>
+         <form method="POST" v-on:submit.prevent="storeActividad">
+             <!-- <div class="row">
+               <div class="input-field col m6 s12">
+                  <select required v-model="tipoActividad">
+                     <option disabled>Tipo de actividad</option>
+                     <option v-for="option in tipoActividadOptions" :key="option.id" :value="option.id" :selected="option.id===tipoActividad" v-text="option.text"></option>
+                  </select>
+                  <label for="tipoSangre">Tipo de actividad.</label>
+                  <p style="font-size: 12px;">Tipo actividad seleccionado: 
+                  <label v-text="tipoActividad"></label></p>
+               </div>
+            </div> -->
+            <div class="row">
+               <div class="input-field col m12 s12">
+                  <textarea id="textarea1" v-model="descripcion" name="descripcion" placeholder="Descripción" required class="materialize-textarea"></textarea>
+                  <label for="descripcion">Ingrese una descripción.</label>
+               </div>
+            </div>
+            <div class="row">
+               <div class="input-field col m6 s12">
+                  <input v-model="fechaContactado" id="fechaContactado" name="fechaContactado" required type="date">
+                  <label for="fecha">Fecha contactado.</label>
+               </div>
+               <div class="input-field col m6 s12">
+                  <input v-model="horaContactado" id="hora" name="horaContactado" required type="time">
+                  <label for="hora">Hora contactado.</label>
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="modal-footer">
+         <a href="#" class="modal-close waves-effect waves-red btn-flat" @click="limpiarFormulario()">Cancelar</a>
+         <a @click="storeActividad" v-if="tipoAccion=='1'" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+         <a @click="updateActividad" v-if="tipoAccion=='2'" class="modal-close waves-effect waves-green btn-flat">Editar</a>
+      </div>
+   </div>
   </div>
 </template>
 
@@ -86,7 +127,13 @@ export default {
       contacto: this.contact[0],
       buscar: "",
       criterio: "",
-      todasActividades: []
+      todasActividades: [],
+      tipoAccion : 0,
+      descripcion:'',
+      fechaContactado:'',
+      contactoId:'',
+      horaContactado:'',
+      actividadSeleccionada:[],
     };
   },
   
@@ -97,17 +144,16 @@ export default {
   methods: {
     listarRegistro: function(buscar, criterio) {
       let me = this;
-      var url =
-        "/actividad/listar?buscar=" +
-        buscar +
-        "&criterio=" +
-        criterio +
-        "&contacto=" +
-        me.contacto.id;
-      axios.get(url).then(response => {
-        me.todasActividades = response.data;
-        console.log(response.data);
-      });
+      const fd = new FormData();
+      fd.append('contacto_id',me.contacto.id);
+      axios
+        .post("/actividad/listar", fd)
+        .then(function(response) {
+          me.todasActividades = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
 
     convertirDateTimeAHora: function(datetime) {
@@ -115,6 +161,13 @@ export default {
     },
     convertirDateTimeAFecha: function(datetime) {
       return moment(datetime).format("YYYY-MM-DD");
+    },
+
+    limpiarFormulario:function(){
+        this.tipoAccion='';
+        this.descripcion='';
+        this.fechaContactado='';
+        this.horaContactado='';
     },
 
     abrirModalActividad(criterio, actividad) {
