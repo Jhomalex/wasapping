@@ -11,7 +11,7 @@ class ActividadController extends Controller
     public function listar()
     {
         $actividad = DB::table('actividads')
-        ->join('users','actividads.user_id','=','users.id')->get();
+        ->join('contactos','actividads.contacto_id','=','contactos.id')->get();
         return $actividad;
     }
 
@@ -19,12 +19,13 @@ class ActividadController extends Controller
         $request->validate([
             'nombre' => 'required',
             'descripcion' => 'required',
+            'contacto_id' => 'required'
         ]);
 
         $actividad = new Actividad();
-        $actividad->nombre=request()->nombre;
-        $actividad->descripcion=request()->descripcion;
-        $actividad->user_id=auth()->id();
+        $actividad->nombre=$request->nombre;
+        $actividad->descripcion=$request->descripcion;
+        $actividad->contacto_id= $request->contacto_id;
         
         $actividad->save();
         return "Ok";
