@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Contacto;
+use Illuminate\Support\Facades\Storage;
 use App\Imports\ContactoImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
@@ -12,7 +15,7 @@ class ContactoController extends Controller
         return $array = Excel::toArray(new ContactoImport, 'contactoss.xlsx');
     }
 
-    public function listar(Request $request, $aptos = false){
+    public function listar(Request $request){
         //********** FALTA HACER UN WHERE PARA QUE SE MUESTREN SOLO LOS DE UN CENTRO MEDICO DETERMINADO */
         /* 
         // *** FORMATO DE ARRAY FILTROS ***
@@ -20,9 +23,14 @@ class ContactoController extends Controller
             'criterio' => ['buscar']
         ],
          */
-        $filtros = $request->get('filtros');
+        
+        $this->validate($request,[
+            'filtros' => 'required',
+        ]);
 
-        $contacto=Contacto::where('user_id','=',auth()->user()->id)
+        $filtros =  json_decode($request->get('filtros'));
+
+        /* $contacto=Contacto::where('user_id','=',auth()->user()->id)
         ->when($filtros, function ($query, $filtros)
         {
             foreach ($filtros as $criterio => $filtro) {
@@ -36,8 +44,9 @@ class ContactoController extends Controller
             return $query;
         })
         ->orderBy('id','desc')->get();
-        
-        return $contacto;
+         */
+         $contacto = Contacto::where('user_id', '=', auth()->user()->id)->orderBy('id','desc')->get();
+         return $contacto;
     }
 
     public function store(Request $request){
@@ -62,6 +71,20 @@ class ContactoController extends Controller
         }else{ //Si ya existe una contacto con el celular ingresado
             return 'Ya se registró este número de celular';
         }
+    }
+
+    public function storevarios(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx|max:2048',
+        ]);
+
+        $archivo=request()->archivo;
+        $ruta=Storage::disk('public')->put('archivos', $archivo);
+
+        $contactosList = Excel::toArray(new ContactoImport,'./public/archivos/'.basename($ruta));
+
+        return $contactosList;
     }
     
     public function update(Request $request){

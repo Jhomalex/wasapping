@@ -14,10 +14,8 @@ Route::group(['prefix'=>'mensajeria','middleware'=> 'auth'],function(){
 
 Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
     Route::get('/', 'PagesController@contactos')->name('contactos');
-    Route::get('/listar', 'ContactoController@listar')->name('contactos.listar');
-    Route::post('/store','MensajeriaController@store')->name('mensajeria.crear');
-    Route::post('/edit','MensajeriaController@edit')->name('mensajeria.editar');
-    Route::post('/delete','MensajeriaController@delete')->name('mensajeria.eliminar');
+    Route::post('/listar', 'ContactoController@listar')->name('contactos.listar');
+    Route::post('/storevarios', 'ContactoController@storevarios')->name('contactos.storevarios');
 });
 
 Route::group(['prefix'=>'administrador','middleware'=> 'auth'],function(){

@@ -249,6 +249,7 @@ export default {
           //"/agenda/listar?buscar=" + buscar + "&criterio=" + criterio + "&fecha=" + this.fechaSelected;
         axios.get(url).then(response => {
           me.todasMensajerias = response.data;
+          console.log(response.data);
         });
     },
     editMensaje: function(){
