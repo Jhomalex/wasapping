@@ -11,7 +11,7 @@ class ActividadController extends Controller
     public function listar()
     {
         $actividad = DB::table('actividads')
-        ->join('users','actividads.user_id','=','users.id')->get();
+        ->join('contactos','actividads.contacto_id','=','contactos.id')->get();
         return $actividad;
     }
 
@@ -19,12 +19,13 @@ class ActividadController extends Controller
         $request->validate([
             'fechaHoraActividad' => 'required',
             'descripcion' => 'required',
+            'contacto_id' => 'required'
         ]);
 
         $actividad = new Actividad();
-        $actividad->nombre=request()->nombre;
-        $actividad->descripcion=request()->descripcion;
-        $actividad->user_id=auth()->id();
+        $actividad->nombre=$request->nombre;
+        $actividad->descripcion=$request->descripcion;
+        $actividad->contacto_id= $request->contacto_id;
         
         $actividad->save();
         return "Ok";
@@ -33,13 +34,13 @@ class ActividadController extends Controller
     public function edit(Request $request){
         $request->validate([
             'id' => 'required',
-            'campania' => 'required|max:250',
-            'mensaje' => 'required',
+            'descripcion' => 'required',
+            'fechaHoraActividad' => 'required',
         ]);
 
-        $actividad = Actividad::find(request()->id);
-        $actividad->nombre = request()->nombre;
-        $actividad->descripcion = request()->mensaje;
+        $actividad = Actividad::find($request->id);
+        $actividad->nombre = $request->nombre;
+        $actividad->fechaHoraActividad = $request->fechaHoraActividad;
         $actividad->save();
         return 'Ok';
     }
@@ -49,7 +50,7 @@ class ActividadController extends Controller
             'id' => 'required',
         ]);
 
-        $actividad = Actividad::find(request()->id);
+        $actividad = Actividad::find($request->id);
         $actividad->delete();
         return 'Ok';
     }

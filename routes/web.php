@@ -45,3 +45,10 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+Route::group(['prefix'=>'actividad','middleware'=> 'auth'],function(){
+    Route::get('/listar', 'ActividadController@listar')->name('actividad.listar');
+    Route::post('/store','ActividadController@store')->name('actividad.crear');
+    Route::post('/edit','ActividadController@edit')->name('actividad.editar');
+    Route::post('/delete','ActividadController@delete')->name('actividad.eliminar');
+});
