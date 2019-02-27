@@ -198,11 +198,11 @@ return [
     'cache' => [
 
         /*
-         * By default all permissions will be cached for 24 hours unless a permission or
-         * role is updated. Then the cache will be flushed immediately.
+         * By default all permissions are cached for 24 hours to speed up performance.
+         * When permissions or roles are updated the cache is flushed automatically.
          */
 
-        'expiration_time' => 60 * 24,
+        'expiration_time' => \DateInterval::createFromDateString('24 hours'),
 
         /*
          * The key to use when tagging and prefixing entries in the cache.
@@ -226,6 +226,7 @@ return [
          * role caching using any of the `store` drivers listed in the cache.php config
          * file. Using 'default' here means to use the `default` set in cache.php.
          */
+
         'store' => 'default',
     ],
 ];
@@ -899,7 +900,7 @@ HOWEVER, if you manipulate permission/role data directly in the database instead
 ### Manual cache reset
 To manually reset the cache for this package, you can run the following in your app code:
 ```php
-$this->app->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 ```
 
 Or you can use an Artisan command:

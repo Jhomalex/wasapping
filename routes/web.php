@@ -4,6 +4,13 @@ Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 
 Route::get('/dashboard', 'PagesController@dashboard')->middleware('auth')->name('dashboard');
 
+Route::group(['prefix'=>'admin','middleware'=> ['auth', 'role:Admin']],function(){
+    Route::get('/listar', 'UserController@listar')->name('contactos.listar');
+    Route::get('/store', 'UserController@store')->name('contactos.store');
+    Route::get('/update', 'UserController@update')->name('contactos.update');
+    Route::get('/delete', 'UserController@delete')->name('contactos.delete');
+});
+
 Route::group(['prefix'=>'mensajeria','middleware'=> 'auth'],function(){
     // Route::get('/', 'PagesController@mensajeria')->name('mensajeria');
     Route::get('/listar', 'ContactoController@listar')->name('contactos.listar');
