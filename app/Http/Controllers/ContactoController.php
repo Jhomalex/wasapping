@@ -87,9 +87,9 @@ class ContactoController extends Controller
             $contacto = $excelRows[$i]; // La fila 0 es el encabezado, por lo que no se toma en cuenta
             $nuevoContacto = new Contacto;
             $nuevoContacto->nombre = $contacto[0];
-            $nuevoContacto->celular = $contacto[1];
-            $nuevoContacto->dni = $contacto[2];
-            $nuevoContacto->ruc = $contacto[3];
+            $nuevoContacto->dni = $contacto[1];
+            $nuevoContacto->ruc = $contacto[2];
+            $nuevoContacto->celular = $contacto[3];
             $nuevoContacto->correo = $contacto[4];
             $nuevoContacto->user_id = auth()->user()->id;
             $nuevoContacto->save();
@@ -129,6 +129,6 @@ class ContactoController extends Controller
 
     public function contartodos()
     {
-        return Contacto::count();
+        return Contacto::where('contactos.user_id','=',auth()->user()->id)->count();
     }
 }

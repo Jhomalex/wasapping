@@ -8,11 +8,11 @@
         <template>
           <v-card flat>
             <v-card-title>
-              <a
-                class="btn-small waves-effect waves-light z-depth-0 modal-trigger"
-                href="#CrearContactosModal"
-              >
+              <a class="btn-small waves-effect waves-light z-depth-0 modal-trigger" href="#CrearContactosModal">
                 <i class="material-icons left">add</i>Nuevo
+              </a>
+              <a class="btn-small waves-effect waves-light z-depth-0 red lighten-2">
+                <i class="material-icons left">delete</i>Eliminar
               </a>
               <v-spacer></v-spacer>
               <v-text-field
@@ -82,7 +82,12 @@
                 <label>Selecciona el excel con la lista de tus contactos</label>
                 <md-file v-model="nombreArchivo" @change="onFileSelected()"/>
               </md-field>
-              <label for="archivo">El archivo debe estar en formato xlsx* y no debe exceder los 2MB</label>
+              <label for="archivo">
+                  El archivo debe estar en formato xlsx* y no debe exceder los 2MB. Descargar formato
+                  <a href="/archivos/Formato_contactos_wasapping.xlsx" download="Formato wasapping.xlsx">
+                      aquí.
+                  </a>
+                </label>
             </div>
           </div>
         </form>
@@ -269,8 +274,6 @@ export default {
   methods: {
     limpiarFormulario: function() {
       let me = this;
-      me.archivo = null;
-      me.nombreArchivo = "";
       me.nombre = '';
       me.celular = '';
       me.dni = '';
@@ -465,10 +468,11 @@ export default {
       });
     },
 
-    enviarMensaje: function(mensaje) {
+    enviarMensaje: function(mensajeSinPreparar) {
       for (var i = 0; i < this.selected.length; i++) {
+        var nombreContacto = this.selected[i].nombre;
         var url = "https://wa.me/" + this.selected[i].celular + "?text=";
-        var mensaje = this.prepararMsj(mensaje, this.selected[i].nombre);
+        var mensaje = this.prepararMsj(mensajeSinPreparar, nombreContacto);
         var url = url + mensaje;
         window.open(url, "_blank");
       }
@@ -476,13 +480,13 @@ export default {
 
     prepararMsj: function(mensajeSinPreparar, nombreContacto) {
       var mensajePreparado = "";
-      var i;
-      for (i = 0; i < mensajeSinPreparar.length + 1; i++) {
+      for (var i = 0; i < mensajeSinPreparar.length + 1; i++) {
         if (mensajeSinPreparar.substring(i, i + 1) == " ") {
           mensajePreparado += "%20";
         } else {
           if (mensajeSinPreparar.substring(i, i + 1) == "@") {
             mensajePreparado += nombreContacto;
+            // console.log(mensajePreparado);
           } else {
             if (mensajeSinPreparar.substring(i, i + 1) != "@") {
               mensajePreparado += mensajeSinPreparar.substring(i, i + 1);
@@ -492,6 +496,7 @@ export default {
       }
       return mensajePreparado;
     },
+
 
     seleccionHora: function() {
       if (this.fecha == this.hoy) {
