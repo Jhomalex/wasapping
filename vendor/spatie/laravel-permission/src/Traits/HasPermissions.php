@@ -96,7 +96,7 @@ trait HasPermissions
             $permissions = $permissions->all();
         }
 
-        $permissions = array_wrap($permissions);
+        $permissions = is_array($permissions) ? $permissions : [$permissions];
 
         return array_map(function ($permission) {
             if ($permission instanceof Permission) {
@@ -114,7 +114,7 @@ trait HasPermissions
      * @param string|null $guardName
      *
      * @return bool
-     * @throws \Exception
+     * @throws PermissionDoesNotExist
      */
     public function hasPermissionTo($permission, $guardName = null): bool
     {
@@ -145,6 +145,8 @@ trait HasPermissions
      * @param string|null $guardName
      *
      * @return bool
+     *
+     * @throws PermissionDoesNotExist
      */
     public function hasUncachedPermissionTo($permission, $guardName = null): bool
     {
@@ -178,8 +180,6 @@ trait HasPermissions
      * @param string|null $guardName
      *
      * @return bool
-     *
-     * @throws \Exception
      */
     public function checkPermissionTo($permission, $guardName = null): bool
     {
@@ -427,7 +427,8 @@ trait HasPermissions
                     $object->permissions()->sync($permissions, false);
                     $object->load('permissions');
                     $modelLastFiredOn = $object;
-                });
+                }
+            );
         }
 
         $this->forgetCachedPermissions();
