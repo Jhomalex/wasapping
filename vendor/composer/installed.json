@@ -3761,32 +3761,32 @@
     },
     {
         "name": "spatie/laravel-permission",
-        "version": "2.29.0",
-        "version_normalized": "2.29.0.0",
+        "version": "2.34.0",
+        "version_normalized": "2.34.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/spatie/laravel-permission.git",
-            "reference": "7f308806ca051fca42685e4a97a282139a6a7982"
+            "reference": "10f6b2e19cce79936e42b65f08549cbf564c052e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/7f308806ca051fca42685e4a97a282139a6a7982",
-            "reference": "7f308806ca051fca42685e4a97a282139a6a7982",
+            "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/10f6b2e19cce79936e42b65f08549cbf564c052e",
+            "reference": "10f6b2e19cce79936e42b65f08549cbf564c052e",
             "shasum": ""
         },
         "require": {
-            "illuminate/auth": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0",
-            "illuminate/container": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0",
-            "illuminate/contracts": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0",
-            "illuminate/database": "~5.4.0|~5.5.0|~5.6.0|~5.7.0",
+            "illuminate/auth": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+            "illuminate/container": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+            "illuminate/contracts": "~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+            "illuminate/database": "~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0",
             "php": ">=7.0"
         },
         "require-dev": {
-            "orchestra/testbench": "~3.4.2|~3.5.0|~3.6.0|~3.7.0",
+            "orchestra/testbench": "~3.4.2|~3.5.0|~3.6.0|~3.7.0|~3.8.0",
             "phpunit/phpunit": "^5.7|6.2|^7.0",
             "predis/predis": "^1.1"
         },
-        "time": "2018-12-16T00:49:22+00:00",
+        "time": "2019-02-26T21:25:08+00:00",
         "type": "library",
         "extra": {
             "laravel": {
