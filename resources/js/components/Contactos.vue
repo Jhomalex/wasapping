@@ -11,7 +11,7 @@
               <a class="btn-small waves-effect waves-light z-depth-0 modal-trigger" href="#CrearContactosModal">
                 <i class="material-icons left">add</i>Nuevo
               </a>
-              <a class="btn-small waves-effect waves-light z-depth-0 red lighten-2">
+              <a class="btn-small waves-effect waves-light z-depth-0 red lighten-2" @click="deleteContactos(selected)">
                 <i class="material-icons left">delete</i>Eliminar
               </a>
               <v-spacer></v-spacer>
@@ -401,7 +401,7 @@ export default {
       Swal({
         title: "¿Estás seguro de eliminar este contacto?",
         text:
-          "Ten en cuenta que se borrará esta mensajería y no podrá recuperarse",
+          "Ten en cuenta que se borrará este contacto y no podrá recuperarse",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#009688",
@@ -449,6 +449,62 @@ export default {
         }
       });
     },
+
+    deleteContactos: function(contactos) {
+      let me = this;
+      Swal({
+        title: "¿Estás seguro de eliminar estos contactos?",
+        text:
+          "Ten en cuenta que se borrarán éstos contactos y no podrán recuperarse",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#009688",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, elimínalo",
+        cancelButtonText: "Cancelar"
+      }).then(result => {
+        if (result.value) {
+          const fd = new FormData();
+          fd.append("contactos", JSON.stringify(contactos));
+          axios
+            .post("/contactos/deletevarios", fd)
+            .then(function(response) {
+              me.listarContactos();
+              console.log(response.data);
+              if (response.data == "Ok") {
+                Swal({
+                  position: "top-end",
+                  type: "success",
+                  title: "Se eliminaron los contactos",
+                  showConfirmButton: false,
+                  timer: 2500
+                });
+              } else {
+                Swal({
+                  position: "top-end",
+                  type: "error",
+                  title:
+                    "Ha habido un error al eliminar los contactos, intentalo nuevamente",
+                  showConfirmButton: false,
+                  timer: 2500
+                });
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+              Swal({
+                position: "top-end",
+                type: "error",
+                title:
+                  "Ha habido un error al eliminar el contacto, comunícate con nuestro equipo técnico",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            });
+        }
+      });
+    },
+
 
     mensajeModal: function() {
       let me = this;

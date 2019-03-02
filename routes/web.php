@@ -18,6 +18,7 @@ Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
     Route::post('/storevarios', 'ContactoController@storevarios')->name('contactos.storevarios');
     Route::post('/update', 'ContactoController@update')->name('contactos.update');
     Route::post('/delete', 'ContactoController@delete')->name('contactos.delete');
+    Route::post('/deletevarios', 'ContactoController@deletevarios')->name('contactos.deletevarios');
     Route::get('/perfil/{contacto_id}', 'PagesController@perfilcontacto')->name('contactos.perfil');
     Route::get('/contartodos', 'ContactoController@contartodos')->name('contactos.contartodos');
 });

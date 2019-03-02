@@ -121,9 +121,23 @@ class ContactoController extends Controller
     public function delete(Request $request){
         $id=$request->get('id');
         $contacto=Contacto::findOrFail($id);
-        // Falta eliminar relaciones de este contacto
-        // DB::table('contacto_grupomsj')->where('contacto_id',$id)->get();
         $contacto->delete();
+        return 'Ok';
+    }
+
+    public function deletevarios(Request $request)
+    {
+        $this->validate($request,[
+            'contactos' => 'required',
+        ]);
+
+        $contactos =  json_decode($request->get('contactos'),true);
+        
+         foreach ($contactos as $contacto) {
+            $contacto=Contacto::findOrFail($contacto['id']);
+            $contacto->delete();
+        }
+        
         return 'Ok';
     }
 
