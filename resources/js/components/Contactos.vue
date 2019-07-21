@@ -38,9 +38,10 @@
                 </td>
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="text-xs-left">{{ props.item.dni }}</td>
-                <td class="text-xs-left">{{ props.item.ruc }}</td>
+                <td class="text-xs-left">{{ props.item.curso }}</td>
                 <td class="text-xs-left">{{ props.item.celular }}</td>
                 <td class="text-xs-left">{{ props.item.correo }}</td>
+                <td class="text-xs-left">{{ props.item.ubicacion }}</td>
                 <td class="text-xs-center">
                   <v-btn flat icon color="primary" @click="irPerfilContacto(props.item.id)">
                     <v-icon>person</v-icon>
@@ -141,20 +142,18 @@
                 maxlength="8"
                 type="text"
                 placeholder="Escribe el DNI del contacto"
-                required
               >
               <label for="dni">DNI del contacto</label>
             </div>
             <div class="col s12 m6">
               <input
-                id="ruc"
-                v-model="ruc"
+                id="curso"
+                v-model="curso"
                 maxlength="11"
                 type="text"
-                placeholder="Escribe el RUC del contacto"
-                required
+                placeholder="Escribe el curso en el que participó el contacto"
               >
-              <label for="ruc">RUC del contacto</label>
+              <label for="curso">Curso del contacto</label>
             </div>
             <div class="row">
               <div class="col s12 m6">
@@ -163,9 +162,20 @@
                   v-model="correo"
                   type="text"
                   placeholder="Escribe el correo del contacto"
-                  required
                 >
                 <label for="correo">Correo del contacto</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12 m12">
+                <textarea
+                  id="ubicacion"
+                  v-model="ubicacion"
+                  class="materialize-textarea"
+                  placeholder="Escribe la ubicación del contacto"
+                  data-length="300"
+                ></textarea>
+                <label for="ubicacion">Ubicación del contacto</label>
               </div>
             </div>
             <div class="row">
@@ -222,8 +232,9 @@ export default {
       nombre:'',
       celular:'',
       dni:'',
-      ruc:'',
+      curso:'',
       correo:'',
+      ubicacion:'',
       referencia:'',
       nombreArchivo: "",
       archivo: null,
@@ -242,10 +253,10 @@ export default {
         },
         ,
         {
-          text: "RUC",
+          text: "Curso",
           align: "left",
           sortable: true,
-          value: "ruc"
+          value: "curso"
         },
         {
           text: "Celular",
@@ -258,6 +269,12 @@ export default {
           align: "left",
           sortable: true,
           value: "correo"
+        },
+        {
+          text: "Ubicación",
+          align: "left",
+          sortable: true,
+          value: "ubicacion"
         },
         {
           text: "Opciones",
@@ -277,8 +294,9 @@ export default {
       me.nombre = '';
       me.celular = '';
       me.dni = '';
-      me.ruc = '';
+      me.curso = '';
       me.correo = '';
+      me.ubicacion = '';
       me.referencia = '';
     },
     listarContactos: function() {
@@ -303,7 +321,6 @@ export default {
       axios
         .post("/contactos/storevarios", fd)
         .then(function(response) {
-          console.log(response.data);
           if (response.data == "Ok") {
             Swal({
               position: "top-end",
@@ -342,8 +359,9 @@ export default {
         this.nombre = contacto.nombre;
         this.celular = contacto.celular;
         this.dni = contacto.dni;
-        this.ruc = contacto.ruc;
+        this.curso = contacto.curso;
         this.correo = contacto.correo;
+        this.ubicacion = contacto.ubicacion;
         this.referencia = contacto.referencia;
     },
 
@@ -354,8 +372,9 @@ export default {
       fd.append('nombre',me.nombre);
       fd.append('celular',me.celular);
       fd.append('dni',me.dni);
-      fd.append('ruc',me.ruc);
+      fd.append('curso',me.curso);
       fd.append('correo',me.correo);
+      fd.append('ubicacion',me.ubicacion);
       fd.append('referencia',me.referencia);
       axios.post('/contactos/update', fd
       ).then(function(response){
@@ -470,7 +489,6 @@ export default {
             .post("/contactos/deletevarios", fd)
             .then(function(response) {
               me.listarContactos();
-              console.log(response.data);
               if (response.data == "Ok") {
                 Swal({
                   position: "top-end",

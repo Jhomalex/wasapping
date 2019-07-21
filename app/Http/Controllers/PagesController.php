@@ -29,4 +29,9 @@ class PagesController extends Controller
             // return view('plataforma.contactos');
         };
     }
+
+    public function listamensajeria()
+    {
+        return view('plataforma/listaMensajeria');
+    }
 }

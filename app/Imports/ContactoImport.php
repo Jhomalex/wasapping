@@ -20,6 +20,7 @@ class ContactoImport implements ToModel
             'dni'        => $row[2],
             'ruc'        => $row[3],
             'correo'     => $row[4],
+            'ubicacion'  => $row[5],
             //'mensajeria_id' => '1',
         ]);
     }

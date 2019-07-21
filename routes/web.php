@@ -12,11 +12,10 @@ Route::group(['prefix'=>'admin','middleware'=> ['auth', 'role:Admin']],function(
 });
 
 Route::group(['prefix'=>'mensajeria','middleware'=> 'auth'],function(){
-    // Route::get('/', 'PagesController@mensajeria')->name('mensajeria');
-    Route::get('/listar', 'ContactoController@listar')->name('contactos.listar');
+    Route::get('/listar', 'MensajeriaController@listar')->name('mensajeria.listar');
+    Route::post('/listarr', 'MensajeriaController@listarr')->name('mensajeria.listar2');
     Route::post('/store','MensajeriaController@store')->name('mensajeria.crear');
-    Route::post('/edit','MensajeriaController@edit')->name('mensajeria.editar');
-    Route::post('/delete','MensajeriaController@delete')->name('mensajeria.eliminar');
+    Route::post('/delete','MensajeriaController@deletemsj')->name('mensajeria.eliminar');
 });
 
 Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
@@ -28,6 +27,11 @@ Route::group(['prefix'=>'contactos','middleware'=> 'auth'],function(){
     Route::post('/deletevarios', 'ContactoController@deletevarios')->name('contactos.deletevarios');
     Route::get('/perfil/{contacto_id}', 'PagesController@perfilcontacto')->name('contactos.perfil');
     Route::get('/contartodos', 'ContactoController@contartodos')->name('contactos.contartodos');
+    Route::get('/listamensajeria', 'PagesController@listamensajeria')->name('contactos.listamensajeria');
+});
+
+Route::group(['prefix'=>'listamensajeria','middleware'=> 'auth'],function(){
+    Route::get('/', 'PagesController@listamensajeria')->name('listamensajeria');
 });
 
 Route::group(['prefix'=>'administrador','middleware'=> 'auth'],function(){

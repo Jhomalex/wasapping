@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Imports\ContactoImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Mail\Correo;
+use App\Contacto;
 use Illuminate\Support\Facades\Mail;
 
 class MensajeriaController extends Controller
@@ -25,7 +26,6 @@ class MensajeriaController extends Controller
     public function store(Request $request){
         $request->validate([
             'nombre' => 'required',
-            'descripcion' => 'required',
         ]);
 
         $mensajeria=new Mensajeria();
@@ -104,5 +104,34 @@ class MensajeriaController extends Controller
                 }
             }
         }
+    }
+
+    public function listar(){
+        $mensajeria = DB::table('mensajerias')
+        ->where('mensajerias.user_id','=',auth()->id())->get();
+        return $mensajeria;
+    }
+
+    public function listarr(Request $request){
+        $this->validate($request,[
+            'grupo' => 'required',
+        ]);
+        $grupo_id =  $request->get('grupo');
+        
+         $contacto = Contacto::where('contactos.user_id', '=', auth()->user()->id)
+         ->join('contacto_mensajeria','contacto_mensajeria.contacto_id','=','contactos.id')
+         ->where('contacto_mensajeria.mensajeria_id','=',$grupo_id)->get();
+         return $contacto;
+    }
+
+    public function deletemsj(Request $request){
+        $this->validate($request,[
+            'mensajeId' => 'required',
+        ]);
+
+        $grupomsj=Mensajeria::find($request->get('mensajeId'));
+        $grupomsj->contactos()->detach();
+        $grupomsj->delete();
+        return 'Ok';
     }
 }

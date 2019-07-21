@@ -16,37 +16,11 @@ class ContactoController extends Controller
     }
 
     public function listar(Request $request){
-        //********** FALTA HACER UN WHERE PARA QUE SE MUESTREN SOLO LOS DE UN CENTRO MEDICO DETERMINADO */
-        /* 
-        // *** FORMATO DE ARRAY FILTROS ***
-        'filtros' => [
-            'criterio' => ['buscar']
-        ],
-         */
-        
         $this->validate($request,[
             'filtros' => 'required',
         ]);
-
-        $filtros =  json_decode($request->get('filtros'));
-
-        /* $contacto=Contacto::where('user_id','=',auth()->user()->id)
-        ->when($filtros, function ($query, $filtros)
-        {
-            foreach ($filtros as $criterio => $filtro) {
-                $query = $query->where(function ($query) use ($filtro, $criterio)
-                {
-                    foreach ($filtro as $buscar) {
-                        $query = $query->orWhere($criterio,'like','%'.$buscar.'%');
-                    }
-                });
-            }
-            return $query;
-        })
-        ->orderBy('id','desc')->get();
-         */
-         $contacto = Contacto::where('user_id', '=', auth()->user()->id)->orderBy('id','desc')->get();
-         return $contacto;
+        $contacto = Contacto::where('user_id', '=', auth()->user()->id)->get();
+        return $contacto;
     }
 
     public function store(Request $request){
@@ -54,7 +28,7 @@ class ContactoController extends Controller
             'nombre' => 'required',
             'celular' => 'required|max:15|unique:contactos,celular',
             'dni' => 'max:8',
-            'ruc' => 'max:11',
+            'curso' => 'max:11',
             'correo' => 'required|email',
         ]);
         if($request->get('resultadoBusquedaPersona')=='1'){ //Si no existe una persona con el celular ingresado
@@ -62,7 +36,7 @@ class ContactoController extends Controller
             $contacto->nombre=$request->get('nombre');
             $contacto->celular=$request->get('celular');
             $contacto->dni=$request->get('dni');
-            $contacto->ruc=$request->get('ruc');
+            $contacto->curso=$request->get('curso');
             $contacto->correo=$request->get('correo');
             $contacto->referencia=$request->get('referencia');
             $contacto->user_id=Auth::user()['id']; //Esto debe cambiar al implementar las funciones de los CM
@@ -88,9 +62,10 @@ class ContactoController extends Controller
             $nuevoContacto = new Contacto;
             $nuevoContacto->nombre = $contacto[0];
             $nuevoContacto->dni = $contacto[1];
-            $nuevoContacto->ruc = $contacto[2];
+            $nuevoContacto->curso = $contacto[2];
             $nuevoContacto->celular = $contacto[3];
             $nuevoContacto->correo = $contacto[4];
+            $nuevoContacto->ubicacion = $contacto[5];
             $nuevoContacto->user_id = auth()->user()->id;
             $nuevoContacto->save();
         }
@@ -104,15 +79,14 @@ class ContactoController extends Controller
             'nombre' => 'required',
             'celular' => 'required|max:15',
             'dni' => 'max:8',
-            'ruc' => 'max:11',
-            'correo' => 'required|email',
         ]);
         $contacto = Contacto::find($request->get('id'));
         $contacto->nombre=$request->get('nombre');
         $contacto->celular=$request->get('celular');
         $contacto->dni=$request->get('dni');
-        $contacto->ruc=$request->get('ruc');
+        $contacto->curso=$request->get('curso');
         $contacto->correo=$request->get('correo');
+        $contacto->ubicacion=$request->get('ubicacion');
         $contacto->referencia=$request->get('referencia');
         $contacto->save();
         return 'Ok';
